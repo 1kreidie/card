@@ -45,6 +45,7 @@ export default {
     line-height: 20px;
     background-color: #FFF;
     cursor: pointer;
+    user-select: none;
 }
 
 .product-size__btn--active {

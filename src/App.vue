@@ -8,8 +8,8 @@
       :discount-percent="item.discountPercent"
       :price="item.price"
       :sizes="item.sizes"
-      :is-favorite="true"
-      :onClickFavorite="onClickFavorite"
+      :is-favorite="item.isFavorite"
+      @click:favorite="setFavorite(i)"
     />
   </section>
 </template>
@@ -20,10 +20,6 @@ import Card from "./components/Card.vue";
 export default {
   components: {
     Card,
-  },
-  methods: {
-    onClickFavorite(){
-    }
   },
   data: () => ({
     data: [
@@ -92,9 +88,15 @@ export default {
         isFavorite: false
       },
     ]
-  })
+  }),
+  methods: {
+    setFavorite(i) {
+      this.data[i].isFavorite = !this.data[i].isFavorite; 
+    },
+  },
 }
 </script>
+
 <style scoped>
 .section{
   margin: 100px 290px 137px 290px;

@@ -7,15 +7,15 @@
         <div class="card__img">
             <img class="image" :src="imageUrl" alt="img">
             <span class="discount-percent">{{ discountPercent }}</span>
-            <component
-                :is="isFavorite ? 'FavoriteIcon' : 'FavoriteActiveIcon'"
+            <FavoriteIcon
                 class="is-favorite"
-                @click="onClickFavorite"
+                :class="{'is-favorite--active': isFavorite}"
+                @click="favoriteHandler"
             />
         </div>
-        <div class="card__info">
+        <div class="card__info" :class="{active: expanded}">
             <div class="card__info--prices" >
-                <h3  class="card__info--name">{{ name }} </h3>
+                <h3 class="card__info--name">{{ name }}</h3>
                 <span class="price">
                     {{ price }} руб.
                 </span>
@@ -23,7 +23,7 @@
                     {{ discount }} руб.
                 </span>
             </div>
-            <div class="sizes-available" v-if="expanded" :class="{active: expanded}">
+            <div class="sizes-available" v-if="expanded">
                 <div>
                     <p class="sizes-available__name">Размеры в наличии:</p>
                     <productSize 
@@ -41,12 +41,11 @@
 </template>
 
 <script>
-import FavoriteActiveIcon from './icons/FavoriteActiveIcon.vue'
 import FavoriteIcon from './icons/FavoriteIcon.vue'
 import ProductSize from './ProductSize.vue'
 
 export default {
-    components: { ProductSize, FavoriteActiveIcon, FavoriteIcon },
+    components: { ProductSize, FavoriteIcon },
     props:({
         image: {
             type: String,
@@ -72,11 +71,8 @@ export default {
             type: Boolean,
             default: null
         },
-        onClickFavorite:{
-            type: Function,
-            default: null
-        }
     }),
+    emits: ['click:favorite'],
     data() {
         return {
             expanded: false,
@@ -100,36 +96,34 @@ export default {
         selectSize(value) {
             this.selectedSize = value
         },
+        favoriteHandler() {
+            this.$emit('click:favorite')
+        }
     },
 }
 </script>
 
 <style scoped>
 .active{
-    position:absolute;
+    --px: 14px;
+    position: absolute;
     z-index: 1;
-    background-color: #FFFFFF;
-    width: 362px;
-    padding: 9px 14px 19px 16px
+    left: calc(var(--px) * -1);
+    background-color: var(--white);
+    width: calc(var(--width) + calc(var(--px) * 3));
+    padding: 0 var(--px) 19px;
 }
-
-/* .activeInfo{
-    position:absolute;
-    width: 362px;
-    z-index: 1;
-    background-color: #FFFFFF;
-    padding-top: 13px;
-    padding-left: 14px;
-} */
 .card {
-    width: 332px;
+    --width: 332px;
+    width: var(--width);
+    position: relative;
 }
 .card__img {
     position: relative;
     height: 444px;
 }
 .card__info--name {
-    color: #2D2D2D;
+    color: var(--gray);
     font-size: 19px;
     line-height: 24px;
     padding-top: 13px;
@@ -138,14 +132,15 @@ export default {
     gap: 5px;
     margin-top: 6px;
 }
+
 .discount-percent {
     top: 8px;
     left: 8px;
     width: 41px;
     height: 24px;
     position: absolute;
-    color: #D01345;
-    background-color: #FFFFFF;
+    color: var(--red);
+    background-color: var(--white);
     font-size: 12px;
     line-height: 24px;
     justify-content: center;
@@ -156,25 +151,41 @@ export default {
     position: absolute;
     bottom: 16px;
     right: 16px;
+    cursor: pointer;
+    fill: none !important;
 }
+:global(.is-favorite .path-1) {
+    fill: var(--white);
+} 
+:global(.is-favorite .path-2) {
+    fill: var(--gray);
+} 
+:global(.is-favorite--active .path-1) {
+    fill: var(--red);
+} 
+:global(.is-favorite--active .path-2) {
+    fill:  var(--white);
+} 
+
 .price {
     text-decoration: line-through;
-    color: #2D2D2D;
+    color: var(--gray);
     font-size: 12px;
     line-height: 24px;
     opacity: 70%;
 }
 .discount {
-    color: #D01345;
+    color: var(--red);
     font-size: 16px;
     line-height: 24px;
 }
 .sizes-available {
     display: flex;
     justify-content: space-between;
+    padding-top: 9px;
 }
 .sizes-available__name {
-    color:#2D2D2D;
+    color: var(--gray);
     font-size: 14px;
     line-height: 16px;
     opacity: 60%;
@@ -183,8 +194,8 @@ export default {
 .sizes-available__btn {
     width: 100px;
     height: 48px;
-    background-color: #2D2D2D;
-    color: #FFFFFF;
+    background-color: var(--gray);
+    color: var(--white);
     font-size: 12px;
     line-height: 24px;
     cursor: pointer;
