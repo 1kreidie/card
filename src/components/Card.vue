@@ -8,14 +8,14 @@
             <img class="image" :src="imageUrl" alt="img">
             <span class="discount-percent">{{ discountPercent }}</span>
             <component
-                :is="!isFavorite ? 'FavoriteIcon' : 'FavoriteActiveIcon'"
+                :is="isFavorite ? 'FavoriteIcon' : 'FavoriteActiveIcon'"
                 class="is-favorite"
-                @click="is-favorite"
+                @click="onClickFavorite"
             />
         </div>
         <div class="card__info">
-            <div class="card__info--prices">
-                <h3 class="card__info--name">{{ name }}</h3>
+            <div class="card__info--prices" >
+                <h3  class="card__info--name">{{ name }} </h3>
                 <span class="price">
                     {{ price }} руб.
                 </span>
@@ -23,7 +23,7 @@
                     {{ discount }} руб.
                 </span>
             </div>
-            <div class="sizes-available" v-if="expanded">
+            <div class="sizes-available" v-if="expanded" :class="{active: expanded}">
                 <div>
                     <p class="sizes-available__name">Размеры в наличии:</p>
                     <productSize 
@@ -71,6 +71,10 @@ export default {
         isFavorite: {
             type: Boolean,
             default: null
+        },
+        onClickFavorite:{
+            type: Function,
+            default: null
         }
     }),
     data() {
@@ -101,15 +105,24 @@ export default {
 </script>
 
 <style scoped>
-/* @font-face{
-    font-family: 'FuturaPT';
-    src: url("../fonts/FuturaPT");
+.active{
+    position:absolute;
+    z-index: 1;
+    background-color: #FFFFFF;
+    width: 362px;
+    padding: 9px 14px 19px 16px
+}
+
+/* .activeInfo{
+    position:absolute;
+    width: 362px;
+    z-index: 1;
+    background-color: #FFFFFF;
+    padding-top: 13px;
+    padding-left: 14px;
 } */
 .card {
     width: 332px;
-}
-.card__info {
-    position: relative;
 }
 .card__img {
     position: relative;
@@ -122,7 +135,6 @@ export default {
     padding-top: 13px;
 }
 .card__info--prices {
-    /* display: flex; */
     gap: 5px;
     margin-top: 6px;
 }

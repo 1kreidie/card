@@ -8,7 +8,8 @@
       :discount-percent="item.discountPercent"
       :price="item.price"
       :sizes="item.sizes"
-      :isFavorite="item.isFavorite"
+      :is-favorite="true"
+      :onClickFavorite="onClickFavorite"
     />
   </section>
 </template>
@@ -19,6 +20,10 @@ import Card from "./components/Card.vue";
 export default {
   components: {
     Card,
+  },
+  methods: {
+    onClickFavorite(){
+    }
   },
   data: () => ({
     data: [
@@ -36,7 +41,7 @@ export default {
         discountPercent: '-20%',
         price: 3999,
         sizes: ['S', 'M', 'L', 'XL', 'XXl'],
-        isFavorite: true
+        isFavorite: false
       },
       {
         image: 'img3.webp',
