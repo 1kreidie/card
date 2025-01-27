@@ -104,6 +104,7 @@ export default {
 </script>
 
 <style scoped>
+
 .active{
     --px: 14px;
     position: absolute;
@@ -127,6 +128,10 @@ export default {
     font-size: 19px;
     line-height: 24px;
     padding-top: 13px;
+    font-family: 'Futura PT Book';
+    font-weight: normal;
+    font-style: normal;
+    
 }
 .card__info--prices {
     gap: 5px;
@@ -173,11 +178,17 @@ export default {
     font-size: 12px;
     line-height: 24px;
     opacity: 70%;
+    font-family: 'Futura PT Medium';
+    font-weight: 500;
+    font-style: normal;
 }
 .discount {
     color: var(--red);
     font-size: 16px;
     line-height: 24px;
+    font-family: 'Futura PT Heavy';
+    font-weight: 900;
+    font-style: normal;
 }
 .sizes-available {
     display: flex;
